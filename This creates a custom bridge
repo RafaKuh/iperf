@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This creates a custom bridge
+# This opens a port
+# Debian 12
+# https://hub.docker.com/r/networkstatic/iperf3
+# 2/25/2024
+
+echo "Please provide a name for the server, no spaces."
+read SRV01
+
+echo "Please provide a name for the network, no spaces."
+read NET01
+
+docker network create $NET01
+docker network ls
+echo "The iperf3 server name is $SRV01"
+docker run -it --rm --network="$NET01" -p 5201:5201 --name="$SRV01" networkstatic/iperf3 -s
+
+echo "End of script"
