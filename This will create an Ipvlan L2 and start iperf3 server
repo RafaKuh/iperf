@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# This will create an Ipvlan L2 and start iperf3 server
+# Debian 12
+# Docker documentation
+#  2/28/2024
+
+echo "Please provide the network and mask (192.168.100.0/24) for the Ipvlan layer 2"
+read SUB01
+echo "Please provide the gateway address for Ipvlan layer 2."
+read GATE01
+echo "Please provide the host NIC name for Ipvlan layer 2."
+read NIC01
+echo "Please provide a name for the Ipvlan layer 2."
+read NAME01
+docker network create -d ipvlan --subnet="$SUB01" --gateway="$GATE01" -o parent="$NIC01" "$NAME01"
+
+echo "Please provide a name for the iperf3 server."
+read SRV01
+echo "Please provide an IP address within the subnet for the iperf3 server."
+read IP01
+docker network ls
+echo "The server name is $SRV01"
+docker run -it --rm --ip="$IP01" --network="$NAME01" -p 5201:5201 --name="$SRV01" networkstatic/iperf3 -s
