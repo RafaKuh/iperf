@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# This is a simple script to run iperf3 as a client on the default bridge
+# Debian 12
+# https://hub.docker.com/r/networkstatic/iperf3
+# 2/21/2024
+
+echo "Please enter the FQDN or IP address of the iperf3 server:"
+read SRVIP
+
+docker run -it --rm networkstatic/iperf3 -c $SRVIP
+
+docker network ls
+echo "End of script"
