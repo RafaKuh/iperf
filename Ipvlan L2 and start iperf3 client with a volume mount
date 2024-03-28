@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# This will create an Ipvlan L2 and start iperf3 client with a volume mount
+# Debian 12
+# Docker documentation
+#  3/6/2024
+
+docker network ls
+echo "Please provide a name for the Ipvlan layer 2 the client may connect."
+read NAME01
+echo "Please provide a name for the iperf3 client."
+read SRV02
+echo "Please provide the FQDN or IP address of the server."
+read IP02
+echo "Please provide an IP address within the subnet for the client."
+read IP01
+echo "Please enter the name of the volume mount. Hint, do not use a common directory name."
+read VOL01
+echo "Please enter the absolute path for the volume mount inside the container."
+read MOUNT01
+echo "Consider debian-12.5.0-amd64-DVD-1.iso"
+echo "Please enter the absolute path and filename inside the volume for transfer."
+read FILE01
+
+echo "This is information about the volume mount."
+docker inspect $VOL01
+
+echo "The client name is $SRV01"
+docker run -it --rm --ip="$IP01" --network="$NAME01" --mount type=volume,source="$VOL01",target="$MOUNT01" --name="$SRV02" networkstatic/iperf3 -c "$IP02" -F "$FILE01"
